@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+ 	<script src="static/js/gauge.js"></script>
+	<!--<script type="text/javascript" language="JavaScript">
+		initData = {{data|tojson}}
+
+		$(function(){
+			gauge();
+		});
+    </script>-->
+	<script>
+	$(function(){
+		 setInterval(function () {
+            $.ajax({
+              url: '/current',
+            })
+            .done(function(data) {
+              $('#temperature').text(data.temperature);
+              $('#temperatureP').text(data.temperatureP);
+              $('#pressure').text(data.pressure);
+              $('#humidity').text(data.humidity);
+
+            });
+		}, 30*1000);
+	});
+	</script>
+	</head>
+	<body>
+	<div style="padding:0px 10px 2px 10px;">
+        <h2 style="margin:2px 0px 4px 0px;">
+            <div style="display: inline-block;" class="label label-success"><span>Temperature(C) </span><span id="temperature">{{data.temperature}}</span></div>
+            <div style="display: inline-block;" class="label label-primary"><span>Temperature From Pressure(C) <span><span id="temperatureP">{{data.temperatureP}}<span></span></div>
+            <div style="display: inline-block;" class="label label-warning"><span>Humidity </span><span id="humidity">{{data.humidity}}</span></div>
+            <div style="display: inline-block;" class="label label-info"><span>Pressure(mBar) </span><span id="pressure">{{data.pressure}}</span></div>
+        </h2>
+
+        <div class="panel panel-primary" style="width:100%;margin-bottom:3px;">
+            <div class="panel-heading panel-title">24 Hours</div>
+            <iframe src="http://192.168.0.21:5601/app/kibana#/dashboard/HomeDashboard-7-days?embed=true&_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-24h,mode:quick,to:now))&_a=(filters:!(),options:(darkTheme:!f),panels:!((col:1,id:hourly-average-temperature,panelIndex:1,row:1,size_x:4,size_y:3,type:visualization),(col:5,id:hourly-average-humidity,panelIndex:2,row:1,size_x:4,size_y:3,type:visualization),(col:9,id:hourly-average-pressure,panelIndex:3,row:1,size_x:4,size_y:3,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:'HomeDashboard%20-%207%20days',uiState:(P-1:(vis:(colors:('Average%20temperature':%23629E51),legendOpen:!f)),P-2:(vis:(colors:('Average%20humidity':%23F9BA8F),legendOpen:!f)),P-3:(vis:(colors:('Average%20pressure':%2370DBED),legendOpen:!f))))" height="325" width="100%"></iframe>
+        </div>
+
+        <div class="panel panel-primary" style="width:100%;margin-bottom:3px;">
+            <div class="panel-heading panel-title">7 Days</div>
+            <iframe src="http://192.168.0.21:5601/app/kibana#/dashboard/HomeDashboard-7-days?embed=true&_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-7d,mode:quick,to:now))&_a=(filters:!(),options:(darkTheme:!f),panels:!((col:1,id:hourly-average-temperature,panelIndex:1,row:1,size_x:4,size_y:3,type:visualization),(col:5,id:hourly-average-humidity,panelIndex:2,row:1,size_x:4,size_y:3,type:visualization),(col:9,id:hourly-average-pressure,panelIndex:3,row:1,size_x:4,size_y:3,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:'HomeDashboard%20-%207%20days',uiState:(P-1:(vis:(colors:('Average%20temperature':%23629E51),legendOpen:!f)),P-2:(vis:(colors:('Average%20humidity':%23F9BA8F),legendOpen:!f)),P-3:(vis:(colors:('Average%20pressure':%2370DBED),legendOpen:!f))))" height="325" width="100%"></iframe>
+        </div>
+    </div
+	</body>
+</html>
